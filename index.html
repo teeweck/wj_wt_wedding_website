@@ -1313,6 +1313,152 @@ footer {
   .countdown { flex-wrap: wrap; }
   .cd-unit { min-width: 70px; padding: 14px 18px; }
 }
+
+@media (max-width: 480px) {
+  body { font-size: 16px; }
+
+  .hero {
+    min-height: auto;
+    padding: 84px 18px 48px;
+  }
+
+  .hero-couple {
+    width: min(100%, 360px) !important;
+    height: auto !important;
+    margin-bottom: 12px;
+  }
+
+  .hero-names {
+    white-space: normal;
+    font-size: clamp(24px, 8vw, 34px) !important;
+    line-height: 1.35 !important;
+  }
+
+  .hero-amp {
+    display: block;
+    margin: 8px 0;
+  }
+
+  .hero-date {
+    font-size: 15px;
+    line-height: 1.7 !important;
+  }
+
+  .hero-venue {
+    font-size: 10px;
+    line-height: 1.6 !important;
+    height: auto !important;
+  }
+
+  .countdown {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+    margin-top: 28px;
+  }
+
+  .cd-unit,
+  .cd-unit[style] {
+    width: auto !important;
+    min-width: 0;
+    height: auto !important;
+    padding: 14px 10px;
+  }
+
+  .cd-num {
+    font-size: 32px;
+  }
+
+  .sec-title,
+  .sec-title[style] {
+    font-size: clamp(26px, 8vw, 34px) !important;
+  }
+
+  .sec-body {
+    font-size: 15px;
+    line-height: 1.75;
+  }
+
+  .story-photo-slot img,
+  .story-photo-placeholder img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .detail-card,
+  .travel-card,
+  .dress-code-caption {
+    padding: 24px 20px;
+  }
+
+  .dc-title,
+  .sch-event,
+  .tc-name {
+    font-size: 18px;
+  }
+
+  .schedule-timeline {
+    padding-left: 56px;
+  }
+
+  .schedule-timeline::before {
+    left: 24px;
+  }
+
+  .sch-dot {
+    left: -40px;
+  }
+
+  .rsvp-inner {
+    text-align: left;
+  }
+
+  .rsvp-band .sec-eyebrow,
+  .rsvp-band .sec-title,
+  .rsvp-band .sec-body {
+    text-align: left;
+    justify-content: flex-start;
+  }
+
+  .rsvp-band .sec-body {
+    margin-bottom: 28px;
+  }
+
+  .fg input,
+  .fg select,
+  .fg textarea {
+    font-size: 16px;
+    padding: 12px 14px;
+  }
+
+  .radio-group {
+    flex-direction: column;
+  }
+
+  .btn-rsvp {
+    width: 100%;
+    padding: 15px 20px;
+  }
+
+  .faq-q {
+    align-items: flex-start;
+  }
+
+  .faq-q h4 {
+    font-size: 16px;
+  }
+
+  footer {
+    padding: 56px 24px;
+  }
+
+  .footer-names {
+    font-size: 28px;
+    line-height: 1.25;
+  }
+}
 </style>
 </head>
 <body style="font-size: 20px">
