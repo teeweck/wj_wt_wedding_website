@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
@@ -1972,14 +1972,38 @@ function toggleFAQ(el) {
 //   var sheet = SpreadsheetApp.openById('YOUR_SHEET_ID').getActiveSheet();
 //   var data = JSON.parse(e.postData.contents);
 //   if (sheet.getLastRow() === 0) {
-//     sheet.appendRow(['Timestamp','First Name','Last Name','Email','Phone','Attendance','Guests','Meal','Dietary','Song','Message']);
+//     sheet.appendRow(['Timestamp','First Name','Last Name','Email','Phone','Attendance','Guests','Meal','Dietary','Song','Message','Additional Guests']);
 //   }
-//   sheet.appendRow([data.timestamp,data.firstName,data.lastName,data.email,data.phone,data.attendance,data.guests,data.meal,data.dietary,data.song,data.message]);
+//   sheet.appendRow([
+//     data.timestamp,
+//     data.firstName,
+//     data.lastName,
+//     data.email,
+//     data.phone,
+//     data.attendance,
+//     data.guests,
+//     data.meal,
+//     data.dietary,
+//     data.song,
+//     data.message,
+//     (data.additionalGuests || []).map(function(g) { return [g.name || '', g.meal || ''].join(' - '); }).join(' | ')
+//   ]);
 //   return ContentService.createTextOutput(JSON.stringify({result:'success'})).setMimeType(ContentService.MimeType.JSON);
 // }
 
 // ── PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL HERE ──
-const GOOGLE_SHEET_URL = 'https://script.google.com/macros/s/AKfycbz-FGPiKjv71Fo_5anq_IDAuSZ0zX7oJyWf6CUPXwdMeOioknRcf9vCW5rKlnqNME7I/exec';
+const GOOGLE_SHEET_URL = 'https://script.google.com/macros/s/AKfycbwLvXwBCiR0E7_So22Tj5Z5MFdQiYRsgt4CXf7g8lIS3LMaGbPja2NhbXfRoW2UjiJx/exec';
+function getAdditionalGuests() {
+  return Array.from(document.querySelectorAll('.guest-block')).map((block) => {
+    const nameInput = block.querySelector('input[name^="guest_name_"]');
+    const mealSelect = block.querySelector('select[name^="guest_meal_"]');
+    return {
+      name: nameInput ? nameInput.value.trim() : '',
+      meal: mealSelect ? mealSelect.value : ''
+    };
+  }).filter((guest) => guest.name || guest.meal);
+}
+
 
 // ── LOCAL BACKUP (always saved locally too) ──
 function getRSVPs() {
@@ -2010,7 +2034,8 @@ async function submitRSVP() {
     meal: document.getElementById('f-meal').value,
     dietary: document.getElementById('f-dietary').value.trim(),
     song: document.getElementById('f-song').value.trim(),
-    message: document.getElementById('f-msg').value.trim()
+    message: document.getElementById('f-msg').value.trim(),
+    additionalGuests: getAdditionalGuests()
   };
 
   // Save locally always
