@@ -1724,8 +1724,8 @@ footer {
     </div>
 
     <div class="rsvp-success" id="rsvp-success">
-      <h3><span class="success-xi">囍</span> <span class="success-text">谢谢你！</span></h3>
-      <p>Thank you for your RSVP! We can't wait to celebrate with you.</p>
+      <h3><span class="success-text" id="rsvp-success-title">谢谢你！</span></h3>
+      <p id="rsvp-success-message">Thank you for your RSVP! We can't wait to celebrate with you.</p>
     </div>
 
     <!-- CSV Export Section -->
@@ -2076,6 +2076,17 @@ async function submitRSVP() {
     } catch(err) {
       console.warn('Google Sheets sync failed, saved locally:', err);
     }
+  }
+
+  const successTitle = document.getElementById('rsvp-success-title');
+  const successMessage = document.getElementById('rsvp-success-message');
+  const isDeclining = attendance && attendance.value === 'Regretfully declines';
+  if (isDeclining) {
+    successTitle.textContent = '谢谢你的祝福';
+    successMessage.textContent = "Thank you for letting us know. We will miss celebrating with you, and we're grateful for your well wishes.";
+  } else {
+    successTitle.textContent = '谢谢你！';
+    successMessage.textContent = "Thank you for your RSVP! We can't wait to celebrate with you.";
   }
 
   document.getElementById('rsvp-form-area').style.display = 'none';
