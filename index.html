@@ -1207,41 +1207,6 @@ nav.scrolled {
 }
 .rsvp-success p { font-family: var(--font-body); font-size: 17px; color: rgba(255,255,255,0.6); }
 
-/* CSV Export */
-.csv-export-wrap {
-  margin-top: 40px;
-  padding-top: 32px;
-  border-top: 1px solid rgba(255,255,255,0.08);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-}
-.csv-count {
-  font-family: var(--font-sans);
-  font-size: 12px;
-  color: rgba(255,255,255,0.35);
-  letter-spacing: 0.1em;
-}
-.btn-export {
-  padding: 12px 32px;
-  background: transparent;
-  border: 1px solid rgba(255,255,255,0.2);
-  font-family: var(--font-sans);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.5);
-  cursor: pointer;
-  transition: all 0.2s;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.btn-export:hover { border-color: rgba(192,57,43,0.5); color: #e87065; }
-.btn-export svg { width: 14px; height: 14px; }
-
 /* ── FAQ ── */
 .faq-bg { background: var(--cream-dark); }
 .faq-list { margin-top: 48px; }
@@ -1727,17 +1692,6 @@ footer {
       <h3><span class="success-text" id="rsvp-success-title">谢谢你！</span></h3>
       <p id="rsvp-success-message">Thank you for your RSVP! We can't wait to celebrate with you.</p>
     </div>
-
-    <!-- CSV Export Section -->
-    <div class="csv-export-wrap">
-      <div class="csv-count" id="csv-count">0 responses collected</div>
-      <button class="btn-export" onclick="exportCSV()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
-        </svg>
-        Download RSVP List (CSV / Excel)
-      </button>
-    </div>
   </div>
 </div>
 
@@ -2023,19 +1977,6 @@ function getAdditionalGuests() {
     };
   }).filter((guest) => guest.name || guest.meal || guest.dietary);
 }
-
-
-// ── LOCAL BACKUP (always saved locally too) ──
-function getRSVPs() {
-  try { return JSON.parse(localStorage.getItem('wj_wt_rsvps') || '[]'); } catch { return []; }
-}
-function saveRSVPs(data) { localStorage.setItem('wj_wt_rsvps', JSON.stringify(data)); }
-function updateCount() {
-  const n = getRSVPs().length;
-  document.getElementById('csv-count').textContent = n === 0 ? 'No responses yet' : `${n} response${n!==1?'s':''} collected`;
-}
-updateCount();
-
 async function submitRSVP() {
   const firstName = document.getElementById('f-firstname').value.trim();
   const lastName = document.getElementById('f-lastname').value.trim();
@@ -2057,12 +1998,6 @@ async function submitRSVP() {
     message: document.getElementById('f-msg').value.trim(),
     additionalGuests: getAdditionalGuests()
   };
-
-  // Save locally always
-  const all = getRSVPs();
-  all.push(entry);
-  saveRSVPs(all);
-  updateCount();
 
   // Send to Google Sheets if URL is configured
   if (GOOGLE_SHEET_URL) {
@@ -2091,27 +2026,6 @@ async function submitRSVP() {
 
   document.getElementById('rsvp-form-area').style.display = 'none';
   document.getElementById('rsvp-success').classList.add('visible');
-}
-
-// ── CSV EXPORT (local backup) ──
-function exportCSV() {
-  const data = getRSVPs();
-  if (data.length === 0) { alert('No RSVPs have been submitted yet.'); return; }
-  const headers = ['Timestamp','First Name','Last Name','Email','Phone','Attendance','No. of Guests','Meal Preference','Dietary Restrictions','Song Request','Message'];
-  const keys = ['timestamp','firstName','lastName','email','phone','attendance','guests','meal','dietary','song','message'];
-  const esc = v => '"' + String(v || '').replace(/"/g, '""') + '"';
-  const rows = [headers.map(esc).join(',')];
-  data.forEach(r => rows.push(keys.map(k => esc(r[k] || '')).join(',')));
-  const csv = rows.join('\r\n');
-  const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'WenJing_WeeTeck_RSVPs.csv';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
 }
 </script>
 
