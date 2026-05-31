@@ -1195,10 +1195,15 @@ nav.scrolled {
 }
 .rsvp-success.visible { display: block; }
 .rsvp-success h3 {
-  font-family: var(--font-brush);
   font-size: 48px;
   color: var(--red);
   margin-bottom: 12px;
+}
+.rsvp-success .success-xi {
+  font-family: var(--font-brush);
+}
+.rsvp-success .success-text {
+  font-family: 'Noto Serif SC', 'Noto Serif', serif;
 }
 .rsvp-success p { font-family: var(--font-body); font-size: 17px; color: rgba(255,255,255,0.6); }
 
@@ -1719,7 +1724,7 @@ footer {
     </div>
 
     <div class="rsvp-success" id="rsvp-success">
-      <h3>囍 谢谢你！</h3>
+      <h3><span class="success-xi">囍</span> <span class="success-text">谢谢你！</span></h3>
       <p>Thank you for your RSVP! We can't wait to celebrate with you.</p>
     </div>
 
@@ -1845,26 +1850,26 @@ document.addEventListener('DOMContentLoaded', function() {
     for (let i = 2; i <= num; i++) {
       html += `
         <div class="guest-entry">
-        <div class="form-row guest-block">
-          <div class="fg">
-            <label>Guest ${i} Name</label>
-            <input type="text" name="guest_name_${i}" placeholder="Guest ${i} Name" />
+          <div class="form-row guest-block">
+            <div class="fg">
+              <label>Guest ${i} Name</label>
+              <input type="text" name="guest_name_${i}" placeholder="Guest ${i} Name" />
+            </div>
+            <div class="fg">
+              <label>Guest ${i} Meal Preference</label>
+              <select name="guest_meal_${i}">
+                <option value="">Select one</option>
+                <option>Standard Chinese Banquet</option>
+                <option>Vegetarian</option>
+                <option>Halal</option>
+              </select>
+            </div>
           </div>
-          <div class="fg">
-            <label>Guest ${i} Meal Preference</label>
-            <select name="guest_meal_${i}">
-              <option value="">Select one</option>
-              <option>Standard Chinese Banquet</option>
-              <option>Vegetarian</option>
-              <option>Halal</option>
-            </select>
-          </div>
-        </div>
           <div class="fg">
             <label>Guest ${i} Dietary Restrictions / Allergies</label>
             <input type="text" name="guest_dietary_${i}" placeholder="None, nut allergy, etc." />
           </div>
-        <div class="guest-divider" aria-hidden="true"></div>
+          <div class="guest-divider" aria-hidden="true"></div>
         </div>
       `;
     }
